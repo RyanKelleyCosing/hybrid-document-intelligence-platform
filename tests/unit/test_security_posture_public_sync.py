@@ -101,6 +101,10 @@ def test_sync_security_posture_public_repo_skips_push_when_export_matches_remote
         branch="main",
         staging_directory=Path("public-repo-staging/security-posture-platform"),
         refresh_export=False,
+        github_identity=GitHubIdentity(
+            login="Sync User",
+            email="sync@example.com",
+        ),
         temp_directory_root=tmp_path,
     )
 
