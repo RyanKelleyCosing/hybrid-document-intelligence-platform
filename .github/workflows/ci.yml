@@ -18,7 +18,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.14"
           cache: pip
 
       - name: Install dependencies
@@ -32,13 +32,11 @@ jobs:
           # gh CLI requires GH_TOKEN inside Actions; some helpers shell out to it.
           GH_TOKEN: ${{ github.token }}
         # Skip tests that depend on private-only artifacts not mirrored to the
-        # public repo (e.g. docs/private-repo-boundary-manifest.json) and the
-        # pydantic strict-mode regression tracked separately.
+        # public repo (e.g. docs/private-repo-boundary-manifest.json).
         run: |
           pytest tests/unit -q \
             --ignore=tests/unit/test_security_site_derivative.py \
-            --ignore=tests/unit/test_security_posture_public_sync.py \
-            --deselect tests/unit/test_workflow.py::test_build_analysis_fallback_preserves_request_context
+            --ignore=tests/unit/test_security_posture_public_sync.py
 
   review-app-tests:
     name: Review app unit tests
