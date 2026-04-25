@@ -30,7 +30,10 @@ dist/
 node_modules/
 review-app/node_modules/
 review-app/dist/
-outputs/public-site-telemetry/
+outputs/
+public-derivatives/
+public-repo-staging/
+public-subtrees/
 review-app/.env.local
 *.tsbuildinfo
 
