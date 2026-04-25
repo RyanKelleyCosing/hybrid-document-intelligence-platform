@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from document_intelligence.repo_boundary import (
     build_repo_boundary_report,
     load_repo_boundary_manifest,
@@ -35,6 +37,10 @@ def test_load_repo_boundary_manifest_reads_expected_entries() -> None:
     )
 
 
+@pytest.mark.skipif(
+    not (Path(__file__).resolve().parents[2] / "local.settings.json").is_file(),
+    reason="local.settings.json is private and gitignored; unavailable in CI",
+)
 def test_build_repo_boundary_report_resolves_expected_paths() -> None:
     """The boundary report should resolve real files and directories in the repo."""
 

@@ -5,12 +5,23 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from document_intelligence.public_cost_metrics import (
     load_public_cost_history_csv,
     load_public_cost_latest_json,
     load_public_cost_metrics_summary,
 )
 from document_intelligence.settings import AppSettings
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_HAS_BUNDLED_COST_HISTORY = any(
+    _REPO_ROOT.glob("outputs/**/cost-report*/history/json/latest.json")
+)
+requires_bundled_cost_history = pytest.mark.skipif(
+    not _HAS_BUNDLED_COST_HISTORY,
+    reason="outputs/ retained cost history is gitignored; unavailable in CI",
+)
 
 
 def create_cost_history_fixture(history_directory: Path) -> None:
@@ -396,6 +407,7 @@ def test_load_public_cost_metrics_summary_derives_richer_fields_from_legacy_hist
     assert summary.top_resource_groups[0].name == "Current platform environment"
 
 
+@requires_bundled_cost_history
 def test_load_public_cost_metrics_summary_falls_back_to_repo_snapshot() -> None:
     """Missing configured history should fall back to the bundled repo snapshot."""
 
@@ -427,6 +439,7 @@ def test_load_public_cost_metrics_summary_derives_anomalies_and_forecast(
     assert summary.anomalies[0].direction == "spike"
     assert summary.anomalies[0].severity == "high"
 
+@requires_bundled_cost_history
 def test_load_public_cost_metrics_summary_round_trips_through_json() -> None:
     """The bundled cost summary should survive a JSON model round-trip unchanged."""
 

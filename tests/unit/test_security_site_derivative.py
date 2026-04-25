@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from document_intelligence.repo_boundary import load_repo_boundary_manifest
 from document_intelligence.security_site_derivative import (
     build_security_site_derivative_plan,
@@ -18,6 +20,16 @@ def _repo_root() -> Path:
 
 def _manifest_path() -> Path:
     return _repo_root() / "docs" / "private-repo-boundary-manifest.json"
+
+
+def _security_concept_path() -> Path:
+    return _repo_root() / "docs" / "ryancodes-security-online-concept.md"
+
+
+requires_security_concept_doc = pytest.mark.skipif(
+    not _security_concept_path().is_file(),
+    reason="docs/ryancodes-security-online-concept.md is private-only; unavailable in CI",
+)
 
 
 def test_build_security_site_derivative_plan_selects_manifest_approved_sources() -> None:
@@ -45,6 +57,7 @@ def test_build_security_site_derivative_plan_selects_manifest_approved_sources()
     assert "function_app.py" not in plan.deferred_candidate_sources
 
 
+@requires_security_concept_doc
 def test_extract_security_site_derivative_package_writes_expected_files(
     tmp_path: Path,
 ) -> None:
