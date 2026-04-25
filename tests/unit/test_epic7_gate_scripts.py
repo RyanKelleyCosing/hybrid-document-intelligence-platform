@@ -7,10 +7,20 @@ import json
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
 
+import pytest
+
 from document_intelligence.epic7_validation import CommandResult
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS_ROOT = PROJECT_ROOT / "scripts"
+
+# `scripts/` is a private-only tree and is not mirrored to the public repo.
+# Skip the entire module when running outside the private checkout so the
+# public CI doesn't fail on missing helper script files.
+pytestmark = pytest.mark.skipif(
+    not SCRIPTS_ROOT.is_dir(),
+    reason="scripts/ directory is private-only and not present in this checkout",
+)
 
 
 def load_script_module(script_name: str) -> ModuleType:

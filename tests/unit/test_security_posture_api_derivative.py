@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from document_intelligence.repo_boundary import load_repo_boundary_manifest
 from document_intelligence.security_posture_api_derivative import (
     build_security_posture_api_derivative_plan,
@@ -19,6 +21,13 @@ def _repo_root() -> Path:
 def _manifest_path() -> Path:
     return _repo_root() / "docs" / "private-repo-boundary-manifest.json"
 
+
+# The boundary manifest enumerates private architecture and is intentionally
+# excluded from the public mirror; skip when it isn't available.
+pytestmark = pytest.mark.skipif(
+    not _manifest_path().is_file(),
+    reason="private-repo boundary manifest is private-only and not present in this checkout",
+)
 
 def test_build_security_posture_api_derivative_plan_selects_manifest_sources() -> None:
     """The derivative plan should only copy manifest-approved backend sources."""

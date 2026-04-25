@@ -5,7 +5,18 @@ from __future__ import annotations
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
+
 from tests.unit.test_epic7_gate_scripts import load_script_module
+
+_SCRIPTS_ROOT = Path(__file__).resolve().parents[2] / "scripts"
+
+# `scripts/` lives only in the private repo; skip when running against the
+# public mirror so CI stays green there.
+pytestmark = pytest.mark.skipif(
+    not _SCRIPTS_ROOT.is_dir(),
+    reason="scripts/ directory is private-only and not present in this checkout",
+)
 
 
 def create_history_fixture(history_directory: Path) -> None:
