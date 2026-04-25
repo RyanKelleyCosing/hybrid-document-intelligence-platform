@@ -1,0 +1,122 @@
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.venv/
+venv/
+ENV/
+env/
+build/
+dist/
+*.egg-info/
+
+# Node and frontend outputs
+node_modules/
+review-app/node_modules/
+review-app/dist/
+outputs/public-site-telemetry/
+review-app/.env.local
+*.tsbuildinfo
+
+# Azure Functions
+local.settings.json
+.python_packages/
+
+# Cloud tooling
+.azure/
+*.azcli
+*.bicepbuild.json
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Logs and reports
+*.log
+logs/
+artifacts/
+deployment-records/
+*.sarif
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+config.json
+config.local.json
+config.*.secrets.json
+*.pem
+*.key
+*.pfx
+*.p12
+*.cer
+*.crt
+*.asc
+*.secret
+*.token
+*.publishsettings
+kubeconfig
+*.kubeconfig
+
+# Generated document and data artifacts
+/data/
+/drops/
+/uploads/
+/raw/
+/processed/
+/quarantine/
+/ocr-output/
+/search-index-dumps/
+/account-master/
+/manual-review-exports/
+/benchmarks/output/
+/benchmarks/reports/
+*.parquet
+*.jsonl
+*.ndjson
+*.csv
+*.tsv
+*.zip
+
+# Block document payloads by default. Only hand-authored public-safe preview
+# samples are re-enabled below.
+*.pdf
+*.tif
+*.tiff
+*.png
+*.jpg
+*.jpeg
+*.doc
+*.docx
+*.msg
+*.eml
+*.rtf
+*.xls
+*.xlsx
+*.pst
+
+!samples/
+!samples/synthetic/
+!samples/synthetic/README.md
+!samples/synthetic/review-preview-request.json
+!samples/synthetic/review-preview-request-court.json
+
+# Generated bundles, run outputs, and downloaded documents stay local-only.
+samples/synthetic/generated/
+samples/synthetic/generated/**
