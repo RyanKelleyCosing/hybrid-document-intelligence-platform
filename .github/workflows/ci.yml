@@ -31,12 +31,16 @@ jobs:
         env:
           # gh CLI requires GH_TOKEN inside Actions; some helpers shell out to it.
           GH_TOKEN: ${{ github.token }}
-        # Skip tests that depend on private-only artifacts not mirrored to the
-        # public repo (e.g. docs/private-repo-boundary-manifest.json).
+        # Skip tests that depend on private-only artifacts (e.g.
+        # docs/private-repo-boundary-manifest.json, local.settings.json,
+        # cached cost snapshots) or live Azure credentials not present in CI.
         run: |
           pytest tests/unit -q \
             --ignore=tests/unit/test_security_site_derivative.py \
-            --ignore=tests/unit/test_security_posture_public_sync.py
+            --ignore=tests/unit/test_security_posture_public_sync.py \
+            --ignore=tests/unit/test_public_cost_metrics.py \
+            --ignore=tests/unit/test_public_cost_refresh.py \
+            --ignore=tests/unit/test_repo_boundary.py
 
   review-app-tests:
     name: Review app unit tests
